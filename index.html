@@ -1,0 +1,123 @@
+<html>
+  <head></head>
+  <body>
+    <div
+      style="
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-top: 140.9677%;
+        padding-bottom: 0;
+        box-shadow: 0 2px 8px 0 rgba(63, 69, 81, 0.16);
+        margin-top: 1.6em;
+        margin-bottom: 0.9em;
+        overflow: hidden;
+        border-radius: 8px;
+        will-change: transform;
+      "
+    >
+      <iframe
+        loading="lazy"
+        style="
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          border: none;
+          padding: 0;
+          margin: 0;
+        "
+        src="https://www.canva.com/design/DAGMWl9h-1o/0e5gmL3KZJAqRNRO42RExg/view?embed"
+        allowfullscreen="allowfullscreen"
+        allow="fullscreen"
+      >
+      </iframe>
+
+      <script>
+        // Função para encontrar um <span> com texto específico
+        function findSpanByText(text) {
+          // Selecionar todos os <span>
+          const spans = document.querySelectorAll("span");
+
+          // Iterar sobre os <span> e logar seu texto no console
+          for (const span of spans) {
+            console.log("Verificando <span> com texto:", span.innerText.trim());
+            if (span.innerText.trim() === text) {
+              console.log("Span encontrado:", span.innerText.trim());
+              return span; // Retorna o primeiro <span> encontrado
+            }
+          }
+          console.log("Nenhum <span> com o texto encontrado.");
+          return null; // Retorna null se não encontrar nenhum
+        }
+
+        // Função para trocar o conteúdo do <span> após um atraso
+        function changeSpanContentAfterDelay(text, newText, delay) {
+          setTimeout(() => {
+            var span = findSpanByText(text);
+            if (span) {
+              span.innerHTML = newText;
+              console.log("Conteúdo do <span> alterado para:", span.innerHTML);
+            } else {
+              console.log(
+                "Não foi possível alterar o conteúdo, <span> não encontrado."
+              );
+            }
+          }, delay);
+        }
+
+        function fetchData(url) {
+          const parsedUrl = new URL(url);
+
+          // Obter os parâmetros da URL
+          const params = new URLSearchParams(parsedUrl.search);
+
+          // Obter o valor do parâmetro 'id'
+          const id = params.get("id");
+
+          const data = {
+            id: id,
+          };
+          fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json", // Define o tipo de conteúdo como JSON
+            },
+            body: JSON.stringify(data), // Converte o objeto de dados para JSON
+          })
+            .then((response) => {
+              // Verifica se a resposta foi bem-sucedida
+              if (!response.ok) {
+                throw new Error(
+                  "Network response was not ok " + response.statusText
+                );
+              }
+              return response.json(); // Converte a resposta para JSON
+            })
+            .then((data) => {
+              // Manipula os dados recebidos da resposta
+              console.log("Dados recebidos:", data);
+              document.getElementById("result").innerText =
+                "Resposta: " + JSON.stringify(data, null, 2);
+            })
+            .catch((error) => {
+              // Lida com erros
+              console.error(
+                "Houve um problema com a solicitação Fetch:",
+                error
+              );
+              document.getElementById("result").innerText =
+                "Erro ao enviar dados.";
+            });
+        }
+
+        // URL do endpoint
+        const url = "https://us-central1-jhonathanalves-br.cloudfunctions.net/casamento";
+
+        // Chamar a função para fazer a solicitação GET
+        fetchData(url);
+      </script>
+    </div>
+  </body>
+</html>
