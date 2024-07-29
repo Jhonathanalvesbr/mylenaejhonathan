@@ -68,7 +68,11 @@
         }
 
         function fetchData(url) {
-          const parsedUrl = new URL(url);
+          // Obter a URL da página atual
+          const currentUrl = window.location.href;
+
+          // Criar um objeto URL a partir da URL da página atual
+          const parsedUrl = new URL(currentUrl);
 
           // Obter os parâmetros da URL
           const params = new URLSearchParams(parsedUrl.search);
@@ -79,6 +83,7 @@
           const data = {
             id: id,
           };
+
           fetch(url, {
             method: "POST",
             headers: {
@@ -113,7 +118,8 @@
         }
 
         // URL do endpoint
-        const url = "https://us-central1-jhonathanalves-br.cloudfunctions.net/casamento";
+        const url =
+          "https://us-central1-jhonathanalves-br.cloudfunctions.net/casamento";
 
         // Chamar a função para fazer a solicitação GET
         fetchData(url);
